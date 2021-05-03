@@ -1,25 +1,30 @@
 #ifndef STATIC_CONTROL_VARIATE_H
 #define STATIC_CONTROL_VARIATE_H
 
-#include "black_scholesND.hpp"
+#include "MonteCarlo.hpp"
 #include "pde_grid_2d.hpp"
 #include "../utils/matrix.hpp"
+#include "rnr1_function.hpp"
 #include <math.h>
 
-class StaticControlVariate : public BlackScholesND {
+class StaticControlVariate : public MonteCarlo {
     protected:
-        Matrix<double> m_weights;
-
+        double m_exp_htp;
+        double m_start_time;
+        double m_end_time;
+        size_t m_nb_steps;
+        double m_r;
+    
     public:
-        StaticControlVariate(Normal* gen,
-                             Matrix<double> initial_spots,
-                             Matrix<double> rates,
-                             Matrix<double> vols,
-                             Matrix<double> corrs,
-                             Matrix<double> weights);
+        StaticControlVariate(BasketPayoff* payoff,
+                             BlackScholesND* target_process,
+                             double start,
+                             double end,
+                             size_t nb_steps);
         ~StaticControlVariate();
 
-        double joint_simulation(double start_time, double end_time, size_t nb_steps, double strike);
+        void compute_exp_htp();
+        double joint_simulation();
 };
 
 #endif

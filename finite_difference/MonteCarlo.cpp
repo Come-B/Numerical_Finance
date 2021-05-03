@@ -1,6 +1,6 @@
 #include "MonteCarlo.hpp"
 
-MonteCarlo::MonteCarlo(RNR1Function* payoff, BlackScholesND* target_process):
+MonteCarlo::MonteCarlo(BasketPayoff* payoff, BlackScholesND* target_process):
     m_payoff_function(payoff),
     m_target_process(target_process){
 
