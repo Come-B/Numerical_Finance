@@ -68,6 +68,8 @@ set(NUMERICAL_FINANCE_SOURCES
     "finite_difference/MonteCarlo.cpp"
     "finite_difference/rnr1_function.hpp"
     "finite_difference/rnr1_function.cpp"
+    "finite_difference/static_control_variate.hpp"
+    "finite_difference/static_control_variate.cpp"
     "finite_difference/TESTER_finite_difference.hpp"
     "finite_difference/TESTER_finite_difference.cpp"
 

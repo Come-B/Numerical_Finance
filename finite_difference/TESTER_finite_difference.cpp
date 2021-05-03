@@ -83,6 +83,7 @@ void test_finite_difference() {
     printf("...weights = %s", payoff_fun.get_coeffs().to_string().c_str());
     printf("...strike = %.2f \n\n", payoff_fun.get_strike());
 
+    /*
     printf("NO VARIANCE REDUCTION:\n");
     int nb_iter[]{ 100, 1000, 5000};
     for(int fn:nb_iter){
@@ -90,8 +91,10 @@ void test_finite_difference() {
         MonteCarlo MC(&payoff_fun,&BSND);
         MC.compute_payoff_fixed_number(0., 1., 100, fn);
     }
+    */
 
     BlackScholesND BSND(new Normal(0., 1.),initial_spots,rates,vols,corrs);
+    /*
     MonteCarlo MC(&payoff_fun,&BSND);
     MC.compute_payoff_conf(0., 1., 100,0.5,0.85);
 
@@ -105,6 +108,11 @@ void test_finite_difference() {
     BlackScholesND BSND2(new Normal(0., 1., 4, new VDCHSequence(5)),initial_spots,rates,vols,corrs);
     MonteCarlo MC2(&payoff_fun,&BSND2);
     MC2.compute_payoff_conf(0., 1., 100,0.1,0.98);
+    */
+
+    StaticControlVariate SCV(&payoff_fun, &BSND, 0., 1., 100);
+    double js = SCV.joint_simulation();
+    printf("Joint simulation: %6.6f\n", js);
 
     /*
     Matrix<double> weights(3,1,new double[3]{0.2,0.5,0.3});
