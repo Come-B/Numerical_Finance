@@ -1,0 +1,12 @@
+build
+*.code-workspace
+*.bash
+.DS_Store
+finite_difference/.DS_Store
+random_generator/.DS_Store
+*.o
+*.save
+*.cbp
+*.exe
+*.depend
+*.layout
