@@ -83,28 +83,57 @@ void test_finite_difference() {
     printf("...weights = %s", payoff_fun.get_coeffs().to_string().c_str());
     printf("...strike = %.2f \n\n", payoff_fun.get_strike());
 
+    int nb_iter[]{ 100};
+
+
     printf("NO VARIANCE REDUCTION:\n");
-    int nb_iter[]{ 100, 1000, 5000};
     for(int fn:nb_iter){
-        BlackScholesND BSND(new Normal(0., 1.),initial_spots,rates,vols,corrs);
+        BlackScholesND BSND(new Normal(0., 1., 1),initial_spots,rates,vols,corrs);
         MonteCarlo MC(&payoff_fun,&BSND);
         MC.compute_payoff_fixed_number(0., 1., 100, fn);
     }
 
-    BlackScholesND BSND(new Normal(0., 1.),initial_spots,rates,vols,corrs);
+    BlackScholesND BSND(new Normal(0., 1., 1),initial_spots,rates,vols,corrs);
     MonteCarlo MC(&payoff_fun,&BSND);
     MC.compute_payoff_conf(0., 1., 100,0.5,0.85);
 
+
+    printf("ANTITHETIC RANDOM VARIABLES:\n");
+    for(int fn:nb_iter){
+        BlackScholesND BSND3(new Normal(0., 1., 1),initial_spots,rates,vols,corrs);
+        BlackScholesND BSNDA3(new Normal(0., 1., 1),initial_spots,rates,vols,corrs,-1);
+        MonteCarloAnti MC3(&payoff_fun,&BSND3,&BSNDA3);
+        MC3.compute_payoff_fixed_number(0., 1., 100, fn);
+    }
+
+    BlackScholesND BSND5(new Normal(0., 1., 1),initial_spots,rates,vols,corrs);
+    BlackScholesND BSNDA5(new Normal(0., 1., 1),initial_spots,rates,vols,corrs,-1);
+    MonteCarloAnti MC5(&payoff_fun,&BSND5,&BSNDA5);
+    MC5.compute_payoff_conf(0., 1., 100,0.5,0.85);
+
     printf("QUASI-RANDOM NUMBERS:\n");
     for(int fn:nb_iter){
-        BlackScholesND BSND(new Normal(0., 1., 4, new VDCHSequence(5)),initial_spots,rates,vols,corrs);
-        MonteCarlo MC(&payoff_fun,&BSND);
+        BlackScholesND BSND3(new NormalND(0., 1., new HaltonSequence(3)),initial_spots,rates,vols,corrs);
+        MonteCarlo MC(&payoff_fun,&BSND3);
         MC.compute_payoff_fixed_number(0., 1., 100, fn);
     }
 
-    BlackScholesND BSND2(new Normal(0., 1., 4, new VDCHSequence(5)),initial_spots,rates,vols,corrs);
+    BlackScholesND BSND2(new NormalND(0., 1., new HaltonSequence(3)),initial_spots,rates,vols,corrs);
     MonteCarlo MC2(&payoff_fun,&BSND2);
-    MC2.compute_payoff_conf(0., 1., 100,0.1,0.98);
+    MC2.compute_payoff_conf(0., 1., 100,0.2,0.92);
+
+    printf("QUASI-RANDOM NUMBERS + ANTITHETIC RANDOM VARIABLES:\n");
+    for(int fn:nb_iter){
+        BlackScholesND BSND7(new NormalND(0., 1., new HaltonSequence(3)),initial_spots,rates,vols,corrs);
+        BlackScholesND BSNDA7(new NormalND(0., 1., new HaltonSequence(3)),initial_spots,rates,vols,corrs,-1);
+        MonteCarloAnti MC7(&payoff_fun,&BSND7,&BSNDA7);
+        MC7.compute_payoff_fixed_number(0., 1., 100, fn);
+    }
+
+    BlackScholesND BSND6(new NormalND(0., 1., new HaltonSequence(3)),initial_spots,rates,vols,corrs);
+    BlackScholesND BSNDA6(new NormalND(0., 1., new HaltonSequence(3)),initial_spots,rates,vols,corrs,-1);
+    MonteCarloAnti MC6(&payoff_fun,&BSND6,&BSNDA6);
+    MC6.compute_payoff_conf(0., 1., 100,0.2,0.92);
 
     /*
     Matrix<double> weights(3,1,new double[3]{0.2,0.5,0.3});

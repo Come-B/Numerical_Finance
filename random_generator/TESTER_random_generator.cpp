@@ -18,6 +18,8 @@ void compute_generation(RandomGenerator* generator, string generator_name) {
 };
 
 void test_random_generator() {
+
+    /*
     RandomGenerator* lcm = new LinearCongruential();
     compute_generation(lcm, "Linear congruential");
 
@@ -33,7 +35,7 @@ void test_random_generator() {
     RandomGenerator* binomial = new Binomial(100, 0.7);
     compute_generation(binomial, "Binomial");
 
-    /*
+
     vector<double> probas {0.2, 0.5, 0.3};
     RandomGenerator* finite_set = new FiniteSet(probas);
     compute_generation(finite_set, "Finite set");
@@ -51,36 +53,45 @@ void test_random_generator() {
     RandomGenerator* exponential2 = new Exponential(2., false);
     compute_generation(exponential2, "Exponential (rejection sampling)");
 
-    RandomGenerator* normal1 = new Normal(1., 1.);
+    RandomGenerator* normal1 = new Normal(0., 1.);
     compute_generation(normal1, "Normal (Box-Müller algorithm)");
 
-    RandomGenerator* normal2 = new Normal(1., 1., 2);
+    RandomGenerator* normal2 = new Normal(0., 1., 2);
     compute_generation(normal2, "Normal (Central Limit Theorem)");
 
-    RandomGenerator* normal3 = new Normal(1., 1., 3);
+    RandomGenerator* normal3 = new Normal(0., 1., 3);
     compute_generation(normal3, "Normal (rejection sampling)");
 
-    RandomGenerator* normal7 = new Normal(1., 1., 4);
+    RandomGenerator* normal7 = new Normal(0., 1., 4);
     compute_generation(normal7, "Normal (Inverse distribution)");
 
-    RandomGenerator* normal9 = new Normal(1., 1., 5);
+    RandomGenerator* normal9 = new Normal(0., 1., 5);
     compute_generation(normal9, "Normal (Marsaglia polar)");
 
-    RandomGenerator* vdch_sequence = new VDCHSequence(5);
-    compute_generation(vdch_sequence, "Van Der Corput and Halton sequence 5");
+    RandomGenerator* vdch_sequence = new VDCHSequence(2);
+    compute_generation(vdch_sequence, "Van Der Corput and Halton sequence 2");
 
-    RandomGenerator* normal4 = new Normal(1., 1.,1,new VDCHSequence(5));
+    RandomGenerator* normal4 = new Normal(0., 1.,1,new VDCHSequence(2));
     compute_generation(normal4, "Normal (Box-Müller algorithm) with VDSH");
 
-    RandomGenerator* normal5 = new Normal(1., 1.,2,new VDCHSequence(5));
+    RandomGenerator* normal5 = new Normal(0., 1.,2,new VDCHSequence(2));
     compute_generation(normal5, "Normal (Central Limit Theorem) with VDSH");
 
-    RandomGenerator* normal6 = new Normal(1., 1.,3,new VDCHSequence(5));
+    RandomGenerator* normal6 = new Normal(0., 1.,3,new VDCHSequence(2));
     compute_generation(normal6, "Normal (rejection sampling) with VDSH");
 
-    RandomGenerator* normal8 = new Normal(1., 1.,4,new VDCHSequence(5));
+    RandomGenerator* normal8 = new Normal(0., 1.,4,new VDCHSequence(2));
     compute_generation(normal8, "Normal (Inverse distribution) with VDSH");
 
-    RandomGenerator* normal10 = new Normal(1., 1.,5,new VDCHSequence(5));
+    RandomGenerator* normal10 = new Normal(0., 1.,5,new VDCHSequence(2));
     compute_generation(normal10, "Normal (Marsaglia polar) with VDSH");
+
+    NormalND* temp = new NormalND(0., 1., new HaltonSequence(3));
+    RandomGenerator* normalND1 =  temp->generator_at(0);
+    RandomGenerator* normalND2 =  temp->generator_at(1);
+    RandomGenerator* normalND3 =  temp->generator_at(2);
+    compute_generation(normalND1, "NormalND with Halton, dim 0");
+    compute_generation(normalND2, "NormalND with Halton, dim 1");
+    compute_generation(normalND3, "NormalND with Halton, dim 2");
+
 };

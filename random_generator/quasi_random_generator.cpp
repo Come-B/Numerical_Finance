@@ -1,10 +1,9 @@
 #include "quasi_random_generator.hpp"
+#include <iostream>
 
 QuasiRandomGenerator::QuasiRandomGenerator() {};
 
 QuasiRandomGenerator::~QuasiRandomGenerator() {};
-
-VDCHSequence::VDCHSequence(int p, myLong n) : p(p), n(n) {};
 
 VDCHSequence::VDCHSequence(int p) : p(p) {};
 
@@ -25,3 +24,19 @@ double VDCHSequence::generate() {
 };
 
 VDCHSequence::~VDCHSequence() {};
+
+const int HaltonSequence::primes[] = {2,3,5,7,11,13,17,19,23,29,31,37,41,43,47};
+HaltonSequence::HaltonSequence(int dim): m_dimension(dim){
+    for(int i=0;i<m_dimension;i++)
+        m_sequences.push_back(new VDCHSequence(primes[i]));
+}
+
+double HaltonSequence::generate_at_dim(int dim){
+    return m_sequences.at(dim)->generate();
+}
+
+UniformGenerator* HaltonSequence::generator_at(int dim){
+    return m_sequences.at(dim);
+}
+
+HaltonSequence::~HaltonSequence() {};

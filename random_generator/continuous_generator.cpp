@@ -99,3 +99,15 @@ double Normal::generate() {
 };
 
 Normal::~Normal() {};
+
+NormalND::NormalND(double mu, double sigma, HaltonSequence* uniform) : m_uniform(uniform) {};
+
+double NormalND::generate_at_dim(int dim){
+    return m_mu + m_sigma * MonteCarlo::inv_cdf(m_uniform->generate_at_dim(dim));
+};
+
+RandomGenerator* NormalND::generator_at(int dim){
+    return new Normal(m_mu,m_sigma,4,m_uniform->generator_at(dim));
+}
+
+NormalND::~NormalND() {};

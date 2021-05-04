@@ -3,6 +3,7 @@
 
 #include "random_generator.hpp"
 #include "uniform_generator.hpp"
+#include "quasi_random_generator.hpp"
 #include <vector>
 
 using namespace std;
@@ -56,6 +57,23 @@ class Normal : public ContinuousGenerator {
         ~Normal();
 
         virtual double generate();
+};
+
+class NormalND {
+    protected:
+        double m_mu = 0.;
+        double m_sigma = 1.;
+        int m_dimension= 1;
+        HaltonSequence* m_uniform;
+
+    public:
+        NormalND(double mu, double sigma, HaltonSequence* uniform);
+        double get_mu() {return m_mu;};
+        double get_sigma() {return m_sigma;};
+        ~NormalND();
+
+        double generate_at_dim(int dim);
+        RandomGenerator* generator_at(int dim);
 };
 
 #endif

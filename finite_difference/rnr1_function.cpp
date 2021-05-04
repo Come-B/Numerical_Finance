@@ -11,7 +11,7 @@ BasketPayoff::BasketPayoff(Matrix<double> coeffs, double strike){
 }
 
 double BasketPayoff::operator()(Matrix<double> X){
-    return (m_coeffs.dot(X)).elem_at(0,0)-m_strike;
+    return std::max((m_coeffs.dot(X)).elem_at(0,0)-m_strike,0.);
 }
 
 BasketPayoff::~BasketPayoff() {}
