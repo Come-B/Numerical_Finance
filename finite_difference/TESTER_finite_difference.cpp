@@ -86,12 +86,14 @@ void test_finite_difference() {
     int nb_iter[]{ 100};
 
 
+    /*
     printf("NO VARIANCE REDUCTION:\n");
     for(int fn:nb_iter){
         BlackScholesND BSND(new Normal(0., 1., 1),initial_spots,rates,vols,corrs);
         MonteCarlo MC(&payoff_fun,&BSND);
         MC.compute_payoff_fixed_number(0., 1., 100, fn);
     }
+
 
     BlackScholesND BSND(new Normal(0., 1., 1),initial_spots,rates,vols,corrs);
     MonteCarlo MC(&payoff_fun,&BSND);
@@ -134,6 +136,11 @@ void test_finite_difference() {
     BlackScholesND BSNDA6(new NormalND(0., 1., new HaltonSequence(3)),initial_spots,rates,vols,corrs,-1);
     MonteCarloAnti MC6(&payoff_fun,&BSND6,&BSNDA6);
     MC6.compute_payoff_conf(0., 1., 100,0.2,0.92);
+    */
+
+    StaticControlVariate SCV(&payoff_fun, &BSND, 0., 1., 100);
+    double js = SCV.joint_simulation();
+    printf("Joint simulation: %6.6f\n", js);
 
     /*
     Matrix<double> weights(3,1,new double[3]{0.2,0.5,0.3});

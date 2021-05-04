@@ -25,6 +25,11 @@ class BlackScholesND : public RandomProcess {
         Matrix<double> spot_at_maturity() const {return *m_spot_at_maturity;};
         ~BlackScholesND();
 
+        int get_dim() const {return m_dimension;};
+        Matrix<double> get_initial_spots() const {return m_initial_spots_matrix;};
+        Matrix<double> get_rates() const {return m_rates_matrix;};
+        Matrix<double> get_corrs() const {return m_corrs_matrix;};
+
 };
 
 #endif

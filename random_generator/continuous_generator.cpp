@@ -1,7 +1,7 @@
 #include "continuous_generator.hpp"
 #include <cmath>
 #include <stdexcept>
-#include "MonteCarlo.hpp"
+#include "../finite_difference/MonteCarlo.hpp"
 
 #ifndef M_PI
     #define M_PI 3.14159265358979323846
